@@ -14,12 +14,17 @@ CC	= 	nvcc
 
 INC     =       ./include/
 
-FLAGS	=	-I$(INC) \
+FLAGS	=	-rdc=true -I$(INC) \
 		`sdl-config --cflags --libs`
 
 SRCS	=	./src/
 
-SRC	= 	$(SRCS)main.cu
+SRC	= 	$(SRCS)main.cu \
+				$(SRCS)init.cu \
+				$(SRCS)launch_kernel.cu \
+				$(SRCS)raytrace.cu \
+				$(SRCS)rotate.cu \
+				$(SRCS)sphere.cu
 
 RM	= 	rm -f
 

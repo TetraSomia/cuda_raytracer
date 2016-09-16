@@ -1,9 +1,5 @@
 #include <stdlib.h>
-#if defined(_MSC_VER)
-#include "SDL.h"
-#else
-#include "SDL/SDL.h"
-#endif
+#include "core.h"
 
 SDL_Surface *screen;
 
@@ -14,43 +10,42 @@ void putpixel(int x, int y, int color)
   ptr[lineoffset + x] = color;
 }
 
-void render()
+void render(s_data *data)
 {
   if (SDL_MUSTLOCK(screen))
     if (SDL_LockSurface(screen) < 0)
       return;
 
-  for (int i = 0; i < 480; i++)
+  launch_kernel(data);
+  /*
+  for (int i = 0; i < W_Y; i++)
   {
-    for (int j = 0; j < 640; j++)
+    for (int j = 0; j < W_X; j++)
     {
       putpixel(j, i, rand()%0x00ffffff);
     }
   }
-
+*/
 
   if (SDL_MUSTLOCK(screen))
     SDL_UnlockSurface(screen);
-  SDL_UpdateRect(screen, 0, 0, 640, 480);
+  SDL_UpdateRect(screen, 0, 0, W_X, W_Y);
 }
 
 int main(int argc, char *argv[])
 {
-  if ( SDL_Init(SDL_INIT_VIDEO) < 0 )
-  {
-    fprintf(stderr, "Unable to init SDL: %s\n", SDL_GetError());
+  s_data data;
+
+  if (SDL_Init(SDL_INIT_VIDEO) < 0)
     exit(1);
-  }
   atexit(SDL_Quit);
-  screen = SDL_SetVideoMode(640, 480, 32, SDL_SWSURFACE);
-  if ( screen == NULL )
-  {
-    fprintf(stderr, "Unable to set 640x480 video: %s\n", SDL_GetError());
+  screen = SDL_SetVideoMode(W_X, W_Y, 32, SDL_SWSURFACE);// | SDL_FULLSCREEN);
+  if (screen == NULL)
     exit(1);
-  }
+  init(&data, screen);
   while (1)
   {
-    render();
+    render(&data);
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
