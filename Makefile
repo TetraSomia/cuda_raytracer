@@ -24,7 +24,9 @@ SRC	= 	$(SRCS)main.cu \
 				$(SRCS)launch_kernel.cu \
 				$(SRCS)raytrace.cu \
 				$(SRCS)rotate.cu \
-				$(SRCS)sphere.cu
+				$(SRCS)sphere.cu \
+				$(SRCS)move.cu \
+				$(SRCS)vector.cu
 
 RM	= 	rm -f
 

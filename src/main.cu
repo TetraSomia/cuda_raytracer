@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <math.h>
 #include "core.h"
 
 SDL_Surface *screen;
@@ -15,17 +16,13 @@ void render(s_data *data)
   if (SDL_MUSTLOCK(screen))
     if (SDL_LockSurface(screen) < 0)
       return;
-
-  launch_kernel(data);
-  /*
-  for (int i = 0; i < W_Y; i++)
-  {
-    for (int j = 0; j < W_X; j++)
-    {
-      putpixel(j, i, rand()%0x00ffffff);
-    }
-  }
+/*
+  data->meta.cam_rot.x = data->rotation + M_PI/2;
+  data->meta.cam_pos.y = 5*cos(data->rotation);
+  data->meta.cam_pos.z = 5*sin(data->rotation);
+  data->rotation += M_PI / 1024;
 */
+  launch_kernel(data);
 
   if (SDL_MUSTLOCK(screen))
     SDL_UnlockSurface(screen);
@@ -46,20 +43,7 @@ int main(int argc, char *argv[])
   while (1)
   {
     render(&data);
-    SDL_Event event;
-    while (SDL_PollEvent(&event))
-    {
-      switch (event.type)
-      {
-      case SDL_KEYDOWN:
-        break;
-      case SDL_KEYUP:
-        if (event.key.keysym.sym == SDLK_ESCAPE)
-          return 0;
-        break;
-      case SDL_QUIT:
-        return(0);
-      }
-    }
+    if (key_listener(&data) == 1)
+      return (0);
   }
 }

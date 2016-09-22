@@ -33,6 +33,11 @@ __device__ void intersect_spheres(s_var *var, uint nb_sphere, const float4 *sphe
   {
     k = solve_sphere_cam_intersect(var, sphere[i]);
     if (k >= 0 && k < var->oc_d)
+    {
       var->oc_d = k;
+      var->h_i = i;
+    }
   }
+  if (var->oc_d == INFINITE)
+    var->oc_d = -1;
 }
