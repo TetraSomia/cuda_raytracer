@@ -4,6 +4,14 @@
 
 SDL_Surface *screen;
 
+void auto_rotate(s_data *data)
+{
+  data->meta.cam_rot.x = data->rotation + M_PI/2;
+  data->meta.cam_pos.y = 5*cos(data->rotation);
+  data->meta.cam_pos.z = 5*sin(data->rotation);
+  data->rotation += M_PI / 1024;
+}
+
 void putpixel(int x, int y, int color)
 {
   unsigned int *ptr = (unsigned int*)screen->pixels;
@@ -16,12 +24,8 @@ void render(s_data *data)
   if (SDL_MUSTLOCK(screen))
     if (SDL_LockSurface(screen) < 0)
       return;
-/*
-  data->meta.cam_rot.x = data->rotation + M_PI/2;
-  data->meta.cam_pos.y = 5*cos(data->rotation);
-  data->meta.cam_pos.z = 5*sin(data->rotation);
-  data->rotation += M_PI / 1024;
-*/
+
+  //auto_rotate(data);
   launch_kernel(data);
 
   if (SDL_MUSTLOCK(screen))

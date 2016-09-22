@@ -25,3 +25,8 @@ __device__ float3 vec_new_uni(float3 p1, float3 p2)
   v.z *= mult;
   return (v);
 }
+
+__device__ float3 vec_inv(float3 v)
+{
+  return((float3){-v.x, -v.y, -v.z});
+}

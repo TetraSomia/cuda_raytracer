@@ -1,8 +1,8 @@
 #pragma once
 #include "SDL.h"
 
-#define W_X (800)
-#define W_Y (800)
+#define W_X (1024)
+#define W_Y (1024)
 #define N (W_X * W_Y)
 #define THREADS (512)
 #define INFINITE (500)
@@ -31,6 +31,7 @@ struct s_var
 {
   float3 c_v;
   float3 c_p;
+  float3 l_p;
   float3 o_p;
   float3 ol_v;
   float3 h_n;
@@ -45,7 +46,7 @@ struct s_meta
   float3 cam_pos;
   float3 cam_rot;
   float3 light;
-  uint nb_sphere;
+  int nb_sphere;
 };
 
 struct s_data
@@ -62,8 +63,10 @@ int key_listener(s_data *data);
 
 __global__ void raytrace(s_meta* meta, const float4 *sphere, uint *pixels);
 __device__ void	rot_vec(float3 *vec, float3 angle);
-__device__ void intersect_spheres(s_var *var, uint nb_sphere, const float4 *sphere);
+__device__ void intersect(s_var *var, int nb_sphere, const float4 *sphere);
+__device__ bool is_shadow(s_var *var, int nb_sphere, const float4 *sphere);
 
 __device__ float vec_dot(float3 v1, float3 v2);
+__device__ float3 vec_inv(float3 v);
 __device__ float3 vec_new(float3 p1, float3 p2);
 __device__ float3 vec_new_uni(float3 p1, float3 p2);
