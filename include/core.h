@@ -8,12 +8,15 @@
 #define INFINITE (50.0f)
 #define MOVE (0.01f)
 #define ROT (M_PI / 1024.0f)
-#define PHONG_SIZE (32)
+#define PHONG_SIZE (16.0f)
 
 #define RGB(r, g, b) ((r) * 0x10000 + (g) * 0x100 + (b))
-#define GET_R(x, y) ((int)((y) * (((x) >> 16) & 0xFF)))
-#define GET_G(x, y) ((int)((y) * (((x) >> 8) & 0xFF)))
-#define GET_B(x, y) ((int)((y) * ((x) & 0xFF)))
+#define GET_RC(x, y) ((int)((y) * (((x) >> 16) & 0xFF)))
+#define GET_GC(x, y) ((int)((y) * (((x) >> 8) & 0xFF)))
+#define GET_BC(x, y) ((int)((y) * ((x) & 0xFF)))
+#define GET_R(x) (((x) >> 16) & 0xFF)
+#define GET_G(x) (((x) >> 8) & 0xFF)
+#define GET_B(x) ((x) & 0xFF)
 #define MAP(x, ba, ea, bb, eb) ((((ba - x) / (ba - ea)) * (eb - bb)) + bb)
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 #define SQ(x) ((x) * (x))
@@ -30,6 +33,7 @@
 //  n -> normal
 //  d -> distance
 //  r -> reflected
+//  c -> color
 
 struct s_var
 {
@@ -43,6 +47,7 @@ struct s_var
   float3 h_p;
   float3 oc_v;
   float oc_d;
+  uint h_c;
   int h_i;
   bool shadow;
 };
@@ -78,7 +83,7 @@ __global__ void raytrace(s_meta* meta, const s_sphere *sphere, uint *pixels);
 __device__ void	rot_vec(float3 *vec, float3 angle);
 __device__ void intersect(s_var *var, int nb_sphere, const s_sphere *sphere);
 __device__ void light(s_var *var, s_meta* meta, const s_sphere *sphere, uint *pix);
-__device__ void phong(s_var *var);
+__device__ void phong(s_var *var, uint *pix);
 __device__ bool is_shadow(s_var *var, int nb_sphere, const s_sphere *sphere);
 
 __device__ float vec_dot(float3 v1, float3 v2);

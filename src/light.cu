@@ -31,13 +31,11 @@ __device__ void light(s_var *var, s_meta* meta, const s_sphere *sphere, uint *pi
 
   if (var->h_i == -1)
   {
-    coef *= 255.0f;
-    *pix = RGB((int)coef, (int)coef, (int)coef);
+    int mod = var->h_p.y * var->h_p.x > 0 ? 1 : 0;
+    var->h_c = ABS((int)var->h_p.y + (int)var->h_p.x) % 2 == mod ? RGB(255,255,255) : 0;
   }
   else
-  {
-    *pix = RGB(GET_R(sphere[var->h_i].color, coef),
-    GET_G(sphere[var->h_i].color, coef),
-    GET_B(sphere[var->h_i].color, coef));
-  }
+    var->h_c = sphere[var->h_i].color;
+  *pix = RGB(GET_RC(var->h_c, coef),
+  GET_GC(var->h_c, coef), GET_BC(var->h_c, coef));
 }

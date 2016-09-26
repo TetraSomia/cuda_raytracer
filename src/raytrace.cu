@@ -27,5 +27,5 @@ __global__ void raytrace(s_meta* meta, const s_sphere *sphere, uint *pixels)
   // SHADERS
   light(&var, meta, sphere, &(pixels[i]));
   if (var.h_i >= 0 && !var.shadow)
-    phong(&var);
+    phong(&var, &(pixels[i]));
 }
