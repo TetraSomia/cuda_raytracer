@@ -16,7 +16,9 @@ SRC		=	$(SRCS)main.cu \
 				$(SRCS)rotate.cu \
 				$(SRCS)intersect.cu \
 				$(SRCS)move.cu \
-				$(SRCS)vector.cu
+				$(SRCS)vector.cu \
+				$(SRCS)light.cu \
+				$(SRCS)phong.cu
 
 RM		=	rm -f
 
