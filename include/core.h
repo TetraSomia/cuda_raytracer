@@ -1,10 +1,10 @@
 #pragma once
 #include "SDL.h"
 
-#define W_X (512)
-#define W_Y (512)
+#define W_X (1024)
+#define W_Y (1024)
 #define N (W_X * W_Y)
-#define THREADS (128)
+#define THREADS (1024)
 #define INFINITE (50.0f)
 #define PHONG_SIZE (16.0f)
 
