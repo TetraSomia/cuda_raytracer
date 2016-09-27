@@ -1,13 +1,11 @@
 #pragma once
 #include "SDL.h"
 
-#define W_X (1024)
-#define W_Y (1024)
+#define W_X (512)
+#define W_Y (512)
 #define N (W_X * W_Y)
-#define THREADS (512)
+#define THREADS (128)
 #define INFINITE (50.0f)
-#define MOVE (0.01f)
-#define ROT (M_PI / 1024.0f)
 #define PHONG_SIZE (16.0f)
 
 #define RGB(r, g, b) ((r) * 0x10000 + (g) * 0x100 + (b))
@@ -34,6 +32,7 @@
 //  d -> distance
 //  r -> reflected
 //  c -> color
+//  i -> object index
 
 struct s_var
 {
@@ -69,20 +68,23 @@ struct s_sphere
 
 struct s_data
 {
+  SDL_Surface *screen;
   s_meta meta;
+  s_meta *g_meta;
   s_sphere *sphere;
+  s_sphere *g_sphere;
   uint *pixels;
-  float rotation;
+  uint *g_pixels;
+  int moved_object;
 };
 
-void init(s_data *data, SDL_Surface *screen);
+void init(s_data *data);
 void launch_kernel(s_data *data);
-int key_listener(s_data *data);
 
-__global__ void raytrace(s_meta* meta, const s_sphere *sphere, uint *pixels);
+__global__ void raytrace(const s_meta* meta, const s_sphere *sphere, uint *pixels);
 __device__ void	rot_vec(float3 *vec, float3 angle);
 __device__ void intersect(s_var *var, int nb_sphere, const s_sphere *sphere);
-__device__ void light(s_var *var, s_meta* meta, const s_sphere *sphere, uint *pix);
+__device__ void light(s_var *var, const s_meta* meta, const s_sphere *sphere, uint *pix);
 __device__ void phong(s_var *var, uint *pix);
 __device__ bool is_shadow(s_var *var, int nb_sphere, const s_sphere *sphere);
 

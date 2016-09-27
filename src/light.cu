@@ -7,7 +7,7 @@ __device__ void get_hit_pos(s_var *var)
   var->h_p.z = var->c_p.z + var->oc_d * var->c_v.z;
 }
 
-__device__ void light(s_var *var, s_meta* meta, const s_sphere *sphere, uint *pix)
+__device__ void light(s_var *var, const s_meta* meta, const s_sphere *sphere, uint *pix)
 {
   get_hit_pos(var);
   if (var->h_i == -1)

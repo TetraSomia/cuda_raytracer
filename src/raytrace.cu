@@ -1,6 +1,6 @@
 #include "core.h"
 
-__device__ void init_ray(s_var *var, s_meta* meta, int i)
+__device__ void init_ray(s_var *var, const s_meta* meta, int i)
 {
   var->l_p = meta->light;
   var->c_p = meta->cam_pos;
@@ -10,7 +10,7 @@ __device__ void init_ray(s_var *var, s_meta* meta, int i)
   rot_vec(&var->c_v, meta->cam_rot);
 }
 
-__global__ void raytrace(s_meta* meta, const s_sphere *sphere, uint *pixels)
+__global__ void raytrace(const s_meta* meta, const s_sphere *sphere, uint *pixels)
 {
   int i = blockIdx.x * blockDim.x + threadIdx.x;
   s_var var;

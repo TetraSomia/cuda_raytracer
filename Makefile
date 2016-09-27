@@ -9,16 +9,19 @@ FLAGS	=	-rdc=true -I$(INC) \
 
 SRCS	=	./src/
 
+KEYS 	= ./src/keys/
+
 SRC		=	$(SRCS)main.cu \
 				$(SRCS)init.cu \
 				$(SRCS)launch_kernel.cu \
 				$(SRCS)raytrace.cu \
 				$(SRCS)rotate.cu \
 				$(SRCS)intersect.cu \
-				$(SRCS)move.cu \
 				$(SRCS)vector.cu \
 				$(SRCS)light.cu \
-				$(SRCS)phong.cu
+				$(SRCS)phong.cu \
+				$(KEYS)move.cu \
+				$(KEYS)listener.cu
 
 RM		=	rm -f
 

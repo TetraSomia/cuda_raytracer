@@ -1,9 +1,9 @@
 #include "core.h"
 
-void init(s_data *data, SDL_Surface *screen)
+void init(s_data *data)
 {
-  data->rotation = 0;
-  data->pixels = (unsigned int*)screen->pixels;
+  data->moved_object = -1;
+  data->pixels = (unsigned int*)data->screen->pixels;
   data->meta.nb_sphere = 2;
   data->sphere = (s_sphere*)malloc(data->meta.nb_sphere * sizeof(s_sphere));
   data->sphere[1].pos.x = 0;
@@ -25,4 +25,7 @@ void init(s_data *data, SDL_Surface *screen)
   data->meta.light.x = 5;
   data->meta.light.y = 5;
   data->meta.light.z = 5;
+  cudaMalloc(&data->g_sphere, data->meta.nb_sphere * sizeof(s_sphere));
+  cudaMalloc(&data->g_pixels, N * sizeof(uint));
+  cudaMalloc(&data->g_meta, sizeof(s_meta));
 }
