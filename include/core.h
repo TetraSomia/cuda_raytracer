@@ -7,6 +7,7 @@
 #define THREADS (1024)
 #define INFINITE (50.0f)
 #define PHONG_SIZE (16.0f)
+#define WHITE (0xFFFFFF)
 
 #define RGB(r, g, b) ((r) * 0x10000 + (g) * 0x100 + (b))
 #define GET_RC(x, y) ((int)((y) * (((x) >> 16) & 0xFF)))
@@ -84,8 +85,10 @@ void launch_kernel(s_data *data);
 __global__ void raytrace(const s_meta* meta, const s_sphere *sphere, uint *pixels);
 __device__ void	rot_vec(float3 *vec, float3 angle);
 __device__ void intersect(s_var *var, int nb_sphere, const s_sphere *sphere);
+__device__ void intersect_spheres(s_var *var, int nb_sphere, const s_sphere *sphere);
 __device__ void light(s_var *var, const s_meta* meta, const s_sphere *sphere, uint *pix);
 __device__ void phong(s_var *var, uint *pix);
+__device__ void reflection(s_var *var, const s_meta* meta, const s_sphere *sphere, uint *pix);
 __device__ bool is_shadow(s_var *var, int nb_sphere, const s_sphere *sphere);
 
 __device__ float vec_dot(float3 v1, float3 v2);

@@ -4,8 +4,10 @@ CC		=	nvcc
 
 INC		=	./include/
 
+#				--gpu-architecture=sm_52
+
 FLAGS	=	-rdc=true -ftz=true -prec-div=false -prec-sqrt=false -use_fast_math \
-				--gpu-architecture=sm_52 -I$(INC) \
+				-I$(INC) --gpu-architecture=compute_52 \
 				`sdl-config --cflags --libs`
 
 SRCS	=	./src/
@@ -27,6 +29,7 @@ SRC		=	$(SRCS)main.cu \
 				$(MATH)vector.cu \
 				$(SHADERS)light.cu \
 				$(SHADERS)phong.cu \
+				$(SHADERS)reflection.cu \
 				$(KEYS)move.cu \
 				$(KEYS)listener.cu
 

@@ -48,6 +48,24 @@ __device__ void intersect(s_var *var, int nb_sphere, const s_sphere *sphere)
     var->oc_d = -1.0f;
 }
 
+__device__ void intersect_spheres(s_var *var, int nb_sphere, const s_sphere *sphere)
+{
+  float k;
+
+  var->oc_d = INFINITE;
+  for (int i = 0; i < nb_sphere; i++)
+  {
+    k = solve_sphere_line_intersect(var->c_p, var->c_v, sphere[i]);
+    if (k >= 0.0f && k < var->oc_d)
+    {
+      var->oc_d = k;
+      var->h_i = i;
+    }
+  }
+  if (var->oc_d == INFINITE)
+    var->oc_d = -1.0f;
+}
+
 __device__ bool is_shadow(s_var *var, int nb_sphere, const s_sphere *sphere)
 {
   float k;
