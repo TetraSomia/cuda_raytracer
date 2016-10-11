@@ -4,6 +4,8 @@ Basic Realtime Raytracer made with CUDA and SDL in C.
 # Keys
 Z/Q/S/D: move
 
+R/F: fly
+
 Arrows: rotate
 
 A: change what you are moving (cam or sphere[x])
